@@ -30,9 +30,9 @@ public class CustomAuthProvider implements AuthenticationProvider {
         String username=authentication.getName();
         String pass=authentication.getCredentials().toString();
 
-        Customer customer=customerRepository.findCustomerByUsername(username);
+        Customer customer=customerRepository.findByEmail(username);
         if(Objects.nonNull(customer)) {
-            if(passwordEncoder.matches(pass,customer.getPassword())) {
+            if(passwordEncoder.matches(pass,customer.getPwd())) {
                 List<GrantedAuthority> authorities=new ArrayList<>();
                 authorities.add(new SimpleGrantedAuthority(customer.getRole()));
                 return new UsernamePasswordAuthenticationToken(username,pass,authorities);
